@@ -73,12 +73,21 @@ const createWindow = async () => {
     show: false,
     width: 1024,
     height: 728,
+    from: false,
     icon: getAssetPath('icon.png'),
     webPreferences: {
       preload: app.isPackaged
         ? path.join(__dirname, 'preload.js')
         : path.join(__dirname, '../../.erb/dll/preload.js'),
     },
+  });
+
+  ipcMain.on('minimize', () => {
+    mainWindow?.minimize();
+  });
+
+  ipcMain.on('close', () => {
+    mainWindow?.close();
   });
 
   mainWindow.loadURL(resolveHtmlPath('index.html'));
